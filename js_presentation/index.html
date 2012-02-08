@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>JavaScript</title>
+<!-- Don't alter this, CSSS needs it to work -->
+<link href="slideshow.css" rel="stylesheet" />
+<!-- Theme-specific styles go here (themes can be reused in multiple talks) -->
+<link href="theme.css" rel="stylesheet" />
+<!-- Talk-specific styles go here -->
+<link href="talk.css" rel="stylesheet" />
+<link href="reusable.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<header id="intro" class="slide"> <!-- intro -->
+	<img src="img/js.png" alt="Javascript logo">
+	<p class="attribution">Łukasz Kufel</p>
+</header><!-- END intro -->
+
+<section> <!-- Podstawy -->
+
+	<header class="slide" id="podstawy">
+		<h1>Podstawy</h1>
+	</header>
+	
+	<section class="slide" id="zmienne">
+		<h2>Zmienne i typy</h2>
+		<pre><code lang="javascript">var a = 1; // Number
+var b = 'b', c = "abc", d = 2.3; // b,c - String, d - Number
+var e // undefined
+  , f = [] // Array
+  , g = {} // Object
+  , h = /^code$/i // RegExp
+  , i = false // Boolean
+  , j = function () {}; // Function</code></pre>
+	</section>
+</section><!-- END Podstawy -->
+
+<section> <!-- Trudniejsze -->
+
+<section>
+<!-- Bad parts  -->
+	<header class="slide" id="bad_parts">
+		<h1>JavaScript to <b><u>trudny</u></b> język!</h1>
+	</header>
+	<section class="slide" id="wtf">
+		
+		<pre class="delayed"><code lang="javascript">[] + []</code></pre>
+		<pre class="delayed"><code lang="javascript">"" // <- pusty string</code></pre>
+		<pre class="delayed"><code lang="javascript">[] + {}</code></pre>
+		<pre class="delayed"><code lang="javascript">[object Object]</code></pre>
+		<pre class="delayed"><code lang="javascript">{} + []</code></pre>
+		<pre class="delayed"><code lang="javascript">0</code></pre>
+		<pre class="delayed"><code lang="javascript">{} + {}</code></pre>
+		<pre class="delayed"><code lang="javascript">NaN</code></pre>
+		<pre class="delayed"><code lang="javascript">a = 012</code></pre>
+		<pre class="delayed"><code lang="javascript">10</code></pre>
+		<pre class="delayed"><code lang="javascript">typeof NaN</code></pre>
+		<pre class="delayed"><code lang="javascript">"number"</code></pre>
+	</section>
+	<section class="slide" id="wtf2">
+		<pre class="delayed"><code lang="javascript">3 > 2 > 1</code></pre>
+		<pre class="delayed"><code lang="javascript">false</code></pre>
+		<pre class="delayed"><code lang="javascript">"3" + 1</code></pre>
+		<pre class="delayed"><code lang="javascript">"31"</code></pre>
+		<pre class="delayed"><code lang="javascript">"3" - 1</code></pre>
+		<pre class="delayed"><code lang="javascript">2</code></pre>
+		<pre class="delayed"><code lang="javascript">"222" - -"111"</code></pre>
+		<pre class="delayed"><code lang="javascript">333</code></pre>
+		<pre class="delayed"><code lang="javascript">(function(){
+	var x = y = 1;
+})();
+console.log(x, y);</code></pre>
+		<pre class="delayed"><code lang="javascript">undefined, 1 // y <- niezamierzona globalna zmienna</code></pre>
+	</section>
+<!-- END Bad parts  -->
+</section>
+
+
+	<header class="slide" id="trudniejsze">
+		<h1>Trudniejsze</h1>
+	</header>
+	
+	<section class="slide" id="zasieg_java">
+		<h2>Zasięg Java</h2>
+		<pre><code lang="javascript">void test() { // nowy zasięg
+   for (int i = 1; i < 10; i++) { // nowy zasięg
+     // kod
+   }
+   System.out.println(i); // Error
+}</code></pre>
+	</section>
+	
+	<section class="slide" id="zasieg">
+		<h2>Zasięg</h2>
+		<pre><code lang="javascript">function test() { // nowy zasięg
+    for(var i = 0; i < 10; i++) { // brak nowego zasięgu 
+        // kod
+    }
+    console.log(i); // 10
+}</code></pre>
+	</section>
+	
+	<section class="slide" id="unikanie_kolizji">
+		<h2>Unikanie kolizji</h2>
+		<pre><code lang="javascript">(function () { // nowy zasięg
+	var a;
+	// tutaj wszystkie var będą lokalne dla tego zasięgu
+})()</code></pre>
+	</section>
+	<section class="slide" id="hoisting">
+		<h2>Hoisting</h2>
+		<pre><code lang="javascript">if (!zmienna) { // błąd ?
+    var zmienna = {};
+}</code></pre>
+	</section>
+	<section class="slide" id="hoisting2">
+		<h2>Bez błędu</h2>
+		<pre><code lang="javascript">var zmienna;
+if (!zmienna) {
+    zmienna = {};
+}</code></pre>
+	</section>
+	<section class="slide" id="hoisting3">
+		<h2>Hoisting 2</h2>
+		<pre><code lang="javascript">&lt;script>
+	if (!zmienna) { // błąd ?
+		// kod
+	}
+&lt;/script>
+&lt;script>
+	function a() {
+		//kod
+	}
+	var zmienna = {};
+&lt;/script></code></pre>
+	</section>
+	<section class="slide" id="hoisting4">
+		<h2>SyntaxError</h2>
+		<pre><code lang="javascript">&lt;script>
+	if (!zmienna) { // BŁĄD !!!
+		// kod
+	}
+&lt;/script>
+&lt;script>
+	var zmienna;
+	function a() {
+		//kod
+	}
+	zmienna = {};
+&lt;/script></code></pre>
+	</section>
+	<section class="slide" id="hoisting5">
+		<h2>Hoisting 3</h2>
+		<pre><code lang="javascript">console.log(zmienna); // błąd ?
+function a() {
+	if (!zmienna) {
+		var zmienna = {};
+	}
+}</code></pre>
+	</section>
+	
+	<section class="slide" id="hoisting6">
+		<h2>SyntaxError</h2>
+		<pre><code lang="javascript">console.log(zmienna); // BŁĄD !!!
+function a() {
+	var zmienna;
+	if (!zmienna) {
+		zmienna = {};
+	}
+}</code></pre>
+	</section>
+	
+	<section class="slide" id="closure">
+		<h2>Domknięcia (closure)</h2>
+		<pre><code lang="javascript">function inc(amount) {
+	var a = amount;
+	return function (num) {
+		return num + a;
+	};
+}
+
+var plus2 = inc(2), plus15 = inc(15), a = 3, b = 5;
+
+console.log(plus2(a)); // 5
+console.log(plus15(b)); // 20</code></pre>
+	</section>
+	
+	<section class="slide" id="private">
+		<h2>Wykorzystanie</h2>
+		<pre><code lang="javascript">function Constructor() {
+	var that = this;
+	var prywatnaZmienna = value;
+	function prywatnaFunkcja(...) {...}
+}
+
+var a = new Constructor();
+
+a.prywatnaZmienna; // undefined
+a.prywatnaFunkcja(); // TypeError
+</code></pre>
+	</section>
+<!-- END Trudniejsze -->
+</section>	
+
+<section>
+<!-- Zakamarki  -->
+	<header class="slide" id="zakamarki">
+		<h1>The dark side</h1>
+	</header>
+	
+	<section class="slide" id="problem_this">
+		<h2>Problem z `this`</h2>
+		<pre><code lang="javascript">Foo.method = function() {
+	function test() {
+		// wewnątrz tej funkcji this wskazuje na obiekt global
+		// (global === window w przegladarce)
+		// (global === process w node.js)
+	}
+	test();
+}</code></pre>
+		<p></p>
+	</section>
+	
+	<section class="slide" id="rozwiazanie_this">
+		<h2>Rozwiązanie</h2>
+		<pre><code lang="javascript">Foo.method = function() {
+	var that = this; // czasami var self = this;
+	function test() {
+		// tutaj używamy that lub self zamiast this
+	}
+	test();
+}</code></pre>
+		<p></p>
+	</section>
+	
+	<section class="slide" id="problem_closure">
+		<h2>Problem</h2>
+		<pre><code lang="javascript">for(var i = 0; i < 10; i++) {
+    setTimeout(function() {
+        console.log(i);  
+    }, 1000);
+}</code></pre>
+		<p>Co wyświetli się na konsoli?</p>
+		<p>Dlaczego?</p>
+		<p>Co z tym zrobić?</p>
+	</section>
+	
+	<section class="slide" id="rozwiazanie_closure">
+		<h2>Rozwiązanie</h2>
+		<pre><code lang="javascript">for(var i = 0; i < 10; i++) {
+  (function(e) {
+      setTimeout(function() {
+        console.log(e);  
+      }, 1000);
+  })(i);
+}</code></pre>
+		<p></p>
+	</section>
+ <!-- END Zakamarki  -->
+</section>
+
+<!-- <section> -->
+<!-- Patterns  -->
+<!-- END Patterns  -->
+<!-- </section> -->
+
+<section>
+<!-- Pytania  -->
+	<section class="slide" id="pytania">
+		<h1>Pytania</h1>
+		<h1>?</h1>
+		<p class="delayed">i może odpowiedzi :-)</p>
+	</section>
+	<section class="slide" id="linki">
+		<h1>Linki</h1>
+		<p><a href="http://bonsaiden.github.com/JavaScript-Garden/">JavaScript Garden</a></p>
+		<p><a href="http://ejohn.org/category/blog/">John Resig - twórca jQuery</a></p>
+		<p><a href="http://javascript.crockford.com/private.html">Private Members in JavaScript, Douglas Crockford</a></p>
+		<p><a href="http://wtfjs.com/">WTF JS</a></p>
+	</section>
+<!-- END Pytania  -->
+</section>
+
+<footer class="slide" id="koniec">
+<!-- Dzieki  -->
+	<h1>Dziękuje za uwagę</h1>
+	<p>Moje demo HTML5, CSS3 i JS</p>
+	<p><a href="http://qfel13.github.com/xit/">Port gry z amigi - Xit</a></p>
+	<p><a href="https://github.com/LeaVerou/CSSS">Silnik prezentacji - CSSS by Lea Verou</a></p>
+<!-- END Dzieki  -->
+</footer>
+
+
+<script src="slideshow.js"></script>
+<script src="prefixfree/prefixfree.min.js"></script>
+<script src="plugins/code-highlight.js"></script>
+<script>var slideshow = new SlideShow();</script>
+</body>
+</html>
